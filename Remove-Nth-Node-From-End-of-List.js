@@ -15,16 +15,12 @@ function ListNode(val){
     this.val = val
     this.next = null
 }
-var head = new ListNode(1)
-var second = new ListNode(2)
-var third = new ListNode(3)
-var forth  = new ListNode(4)
-var fifth = new ListNode(5)
-head.next  = second
-second.next = third
-third.next = forth
-forth.next = fifth
-
+let arr = [1,2,3,4,5]
+let p = head = new ListNode(arr.shift())
+for(let i=0;i<arr.length;i++){
+    p.next = new ListNode(arr[i])
+    p = p.next
+}
 
 var removeNthFromEnd = function(head, n) {
     let fast = head,
