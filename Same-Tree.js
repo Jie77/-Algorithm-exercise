@@ -14,11 +14,15 @@
 var isSameTree = function(p, q) {
     var res1 = resArr(p)
     var res2 = resArr(q)
+    
     return res1.toString() === res2.toString()
     
 };
 
 function resArr(p){
+    if(!p){
+        return []
+    }
     var res = [],
         s = []
     s.push(p)
