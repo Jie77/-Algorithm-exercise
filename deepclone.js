@@ -15,7 +15,17 @@ Object.prototype.deepClone = function(){
     var newObj = Object.create(Object.getPrototypeOf(this))
     var propNames = Object.getOwnPropertyNames(this)
     propNames.forEach(function(item,index){
-        var des = Object.getOwnPropertyDescriptor(this)
+        var des = Object.getOwnPropertyDescriptor(this,item)
         Object.defineProperty(newObj,item,des)
+    },this)
+}
+
+
+Object.prototype.deepClone = function(){
+    var newobj = Object.create(Object.getPropertyOf(this))
+    var props = Object.getOwnPropertyNames(this)
+    props.forEach(function(item){
+        var des = Object.getOwnPropertyDescriptor(this,item)
+        Object.defineProperty(newobj,item,des)
     },this)
 }
