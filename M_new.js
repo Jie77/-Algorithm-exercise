@@ -26,3 +26,13 @@ function People(name,age){
 let jiang = New(People,'jiangjie','age')
 console.log(jiang.name)
 console.log(jiang.age)
+
+
+function New() {
+    let args = Array.prototype.slice.call(arguments)
+    let fn = args.shift()
+    let res = {}
+    res.__proto__ = fn.prototype
+    fn.apply(res,args)
+    return res
+}
