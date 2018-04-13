@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin: 0;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background:forestgreen;
+            position: relative;
+        }
+        .container {
+            border: 1px solid #000;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <div class="container"></div>
+</body>
+<script>
+    function addEvent(ele,type,handle){
+        if(ele.addEventListener){
+            ele.addEventListener(type,handle)
+        }else if(ele.attachEvent){
+            ele.attachEvent('on'+type,handle)
+        }else{
+            ele['on'+type] = handle
+        }
+    }
+
+    function throttle(fn,delay){
+        var pre = Date.now()
+        var timer = null
+        return function(){
+            if(timer){
+                clearTimeout(timer)
+            }
+            var now = Date.now()
+            if(now-pre-delay>0){
+                pre = now
+                fn()
+            }
+            timer = setTimeout(fn,delay)
+        }
+    }
+    
+    var box = document.querySelector('.box')
+    var container = document.querySelector('.container')
+
+    function drop(target,container){
+        var flag = false,
+            mouseLeft = 0,
+            mouseTop = 0,
+            originLeft = 0,
+            originTop = 0
+        addEvent(target,'mousedown',function(e){
+            e = e||window.event
+            flag = true
+            if(e.preventDefault){
+                e.preventDefault()
+            }else{
+                e.returnValue = false
+            }
+            console.log("mousedown:flag:"+flag)
+            originLeft = target.offsetLeft
+            originTop = target.offsetTop
+            mouseLeft = e.clientX - target.offsetLeft
+            mouseTop = e.clientY - target.offsetTop
+        })
+
+        addEvent(target,'mouseup',function(e){
+            flag = false
+            mouseLeft = 0
+            mouseTop = 0
+            if(target.offsetLeft<container.offsetLeft || target.offsetTop<container.offsetTop){
+                target.style.left = originLeft + 'px'
+                target.style.top = originTop + 'px'
+            }
+        })
+
+        addEvent(target,'mousemove',throttle(function(e){
+            var e = e||window.event
+            if (flag){
+                target.style.left = e.clientX - mouseLeft + 'px'
+                target.style.top = e.clientY - mouseTop + 'px'
+            }
+        },0))
+
+    }
+
+    drop(box,container)
+</script>
+</html>
