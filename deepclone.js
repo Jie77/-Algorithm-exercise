@@ -29,3 +29,22 @@ Object.prototype.deepClone = function(){
         Object.defineProperty(newobj,item,des)
     },this)
 }
+
+function deepClone(obj){
+    var res = null
+    if(Object.prototype.toString.call(obj) == '[object Array]'){
+        res = []
+        for(let i=0;i<obj.length;i++){
+            res.push(deepClone(obj[i]))
+        }
+    }else if(Object.prototype.toString.call(obj) == '[object Object]'){
+        res = {}
+        for(let i in obj){
+            console.log(i)
+            res[i] = deepClone(obj[i])
+        }
+    }else{
+        res = obj
+    }
+    return res
+}
